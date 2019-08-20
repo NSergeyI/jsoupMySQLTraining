@@ -72,9 +72,22 @@
 
 
         <!--Spring freemarker-->
-        <dependency>
+      <!--  <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency>-->
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- JPA Data -->
@@ -88,12 +101,21 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
+
+        <!-- jsoup HTML parser library @ https://jsoup.org/ -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>${jsoup.version}</version>
+        </dependency>
+
     </dependencies>
 
     <properties>
         <java.version>1.8</java.version>
         <junit-jupiter.version>5.5.1</junit-jupiter.version>
         <jmock-junit5.version>2.12.0</jmock-junit5.version>
+        <jsoup.version>1.12.1</jsoup.version>
     </properties>
 
     <build>
