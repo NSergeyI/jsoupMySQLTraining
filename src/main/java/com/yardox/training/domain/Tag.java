@@ -3,7 +3,7 @@ package com.yardox.training.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tag")
+@Table(name = "tag", uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
 public class Tag {
 
     @Id

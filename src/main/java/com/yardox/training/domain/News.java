@@ -16,7 +16,10 @@ public class News {
 
     private Timestamp date;
 
+    @Column(columnDefinition = "TEXT")
     private String text;
+
+    private String link;
 
     @ManyToOne
     @JoinColumn(name = "tag_id")
@@ -29,10 +32,11 @@ public class News {
     public News() {
     }
 
-    public News(String title, Timestamp date, String text, Tag tag, Author author) {
+    public News(String title, Timestamp date, String text, String link, Tag tag, Author author) {
         this.title = title;
         this.date = date;
         this.text = text;
+        this.link = link;
         this.tag = tag;
         this.author = author;
     }
@@ -69,6 +73,14 @@ public class News {
         this.text = text;
     }
 
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
     public Tag getTag() {
         return tag;
     }
@@ -92,6 +104,7 @@ public class News {
                 ", title='" + title + '\'' +
                 ", date=" + date +
                 ", text='" + text + '\'' +
+                ", link='" + link + '\'' +
                 ", tag=" + tag +
                 ", author=" + author +
                 '}';
