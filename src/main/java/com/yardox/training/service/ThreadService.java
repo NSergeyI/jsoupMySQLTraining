@@ -13,6 +13,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.Exchanger;
 
 
@@ -67,9 +68,9 @@ public class ThreadService implements Runnable {
         if (element.getElementsByTag("time").text().isEmpty()) {
             result = Timestamp.valueOf(LocalDateTime.now());
         } else {
-            String time = element.getElementsByTag("time").text();
-//            LocalDateTime localDateTime = LocalDateTime.getData(time, DateTimeFormatter.ofPattern("dd.MM.uuuu HH:mm"));
-            LocalDateTime localDateTime = LocalDateTime.now();
+            String time = element.getElementsByClass("news current news_content").first().getElementsByTag("time").text();
+            LocalDateTime localDateTime = LocalDateTime.parse(time, DateTimeFormatter.ofPattern("dd.MM.uuuu HH:mm"));
+//            LocalDateTime localDateTime = LocalDateTime.now();
             result = Timestamp.valueOf(localDateTime);
         }
         return result;

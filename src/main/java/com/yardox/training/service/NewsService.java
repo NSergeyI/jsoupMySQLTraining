@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.Exchanger;
 
@@ -28,9 +29,16 @@ import java.util.concurrent.Exchanger;
 public class NewsService {
     private static final Logger LOGGER = LogManager.getLogger(NewsService.class);
 
+    @Autowired
+    NewsRepo newsRepo;
+
     public String getData() {
         LOGGER.info("start");
-        String result = "+++";
+        String result = "";
+        Iterable<News> news = newsRepo.findAll();
+        for (News article : news) {
+            result = result + news + "\n"+ "\n"+ "\n";
+        }
         return result;
     }
 }
