@@ -22,11 +22,14 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.TimeZone;
+import java.util.concurrent.Exchanger;
 
 @Service
 public class NewsService {
 
     private static final Logger LOGGER = LogManager.getLogger(NewsService.class);
+
+    Exchanger<News> ex = new Exchanger<>();
 
     @Autowired
     private NewsRepo newsRepo;
@@ -44,13 +47,43 @@ public class NewsService {
         for (Element headline : newsHeadlines) {
             result = result + getNews(headline) + "\n";
         }
-        return "11";
+
+        return result;
+    }
+
+    private void saveNewsFromThreads(){
+        while(true){
+            News news = null;
+            new Thread(runnable).start();
+            try {
+                news = ex.exchange(news);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (news != null) {
+                news.setAuthor(getAuthor(news.getAuthor().getName()));
+                news.setTag(getTag(news.getTag().getName()));
+            }
+            news = newsRepo.save(news);
+        }
+
     }
 
     private News getNews(Element element) {
         String link = element.getElementsByClass("linkName").first().getElementsByTag("a").attr("href");
-        Runnable runnable = new ThreadService(link);
+        Runnable runnable = new ThreadService(link, ex);
+        News news = null;
         new Thread(runnable).start();
+        try {
+            news = ex.exchange(news);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if (news != null) {
+            news.setAuthor(getAuthor(news.getAuthor().getName()));
+            news.setTag(getTag(news.getTag().getName()));
+        }
+        news = newsRepo.save(news);
         return null;
     }
 
@@ -60,6 +93,25 @@ public class NewsService {
             result = Jsoup.connect(link).get();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        return result;
+    }
+
+    private Author getAuthor(String name) {
+        Author result = authorRepo.findByName(name);
+        if (result == null) {
+            result = new Author(name);
+            result = authorRepo.save(result);
+        }
+        return result;
+    }
+
+    private Tag getTag(String name) {
+        LOGGER.info(name);
+        Tag result = tagRepo.findByName(name);
+        if (result == null) {
+            result = new Tag(name);
+            result = tagRepo.save(result);
         }
         return result;
     }
