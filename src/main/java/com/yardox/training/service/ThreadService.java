@@ -68,7 +68,7 @@ public class ThreadService implements Runnable {
             result = Timestamp.valueOf(LocalDateTime.now());
         } else {
             String time = element.getElementsByTag("time").text();
-//            LocalDateTime localDateTime = LocalDateTime.parse(time, DateTimeFormatter.ofPattern("dd.MM.uuuu HH:mm"));
+//            LocalDateTime localDateTime = LocalDateTime.getData(time, DateTimeFormatter.ofPattern("dd.MM.uuuu HH:mm"));
             LocalDateTime localDateTime = LocalDateTime.now();
             result = Timestamp.valueOf(localDateTime);
         }
