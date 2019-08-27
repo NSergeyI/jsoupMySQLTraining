@@ -23,9 +23,9 @@ public class MainController {
         return "parse";
     }
 
-    @GetMapping({"/","/hello"})
-    public String hello(Model model,@RequestParam(value="name", required=false, defaultValue="World") String name){
+    @GetMapping({"/","/main"})
+    public String hello(Model model){
         model.addAttribute("name",newsService.getData() );
-        return "hello";
+        return "main";
     }
 }

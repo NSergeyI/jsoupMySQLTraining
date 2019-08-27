@@ -30,7 +30,7 @@ public class NewsService {
 
     public String getData() {
         LOGGER.info("start");
-        String result = "";
+        String result = "+++";
         return result;
     }
 }
