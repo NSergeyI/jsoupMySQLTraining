@@ -25,20 +25,15 @@ public class News {
     @JoinColumn(name = "tag_id")
     private Tag tag;
 
-    @ManyToOne
-    @JoinColumn(name = "author_id")
-    private Author author;
-
     public News() {
     }
 
-    public News(String title, Timestamp date, String text, String link, Tag tag, Author author) {
+    public News(String title, Timestamp date, String text, String link, Tag tag) {
         this.title = title;
         this.date = date;
         this.text = text;
         this.link = link;
         this.tag = tag;
-        this.author = author;
     }
 
     public Long getId() {
@@ -89,14 +84,6 @@ public class News {
         this.tag = tag;
     }
 
-    public Author getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Author author) {
-        this.author = author;
-    }
-
     @Override
     public String toString() {
         return "News{" +
@@ -106,7 +93,6 @@ public class News {
                 ", text='" + text + '\'' +
                 ", link='" + link + '\'' +
                 ", tag=" + tag +
-                ", author=" + author +
                 '}';
     }
 }

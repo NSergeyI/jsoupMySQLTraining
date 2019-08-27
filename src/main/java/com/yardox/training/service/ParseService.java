@@ -1,9 +1,7 @@
 package com.yardox.training.service;
 
-import com.yardox.training.domain.Author;
 import com.yardox.training.domain.News;
 import com.yardox.training.domain.Tag;
-import com.yardox.training.repos.AuthorRepo;
 import com.yardox.training.repos.NewsRepo;
 import com.yardox.training.repos.TagRepo;
 import org.apache.logging.log4j.LogManager;
@@ -28,9 +26,6 @@ public class ParseService {
     private NewsRepo newsRepo;
 
     @Autowired
-    private AuthorRepo authorRepo;
-
-    @Autowired
     private TagRepo tagRepo;
 
     public void startParse(){
@@ -53,7 +48,6 @@ public class ParseService {
                 e.printStackTrace();
             }
             if (news != null) {
-                news.setAuthor(getAuthor(news.getAuthor().getName()));
                 news.setTag(getTag(news.getTag().getName()));
             }
             news = newsRepo.save(news);
@@ -77,15 +71,6 @@ public class ParseService {
             result = Jsoup.connect(link).get();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        return result;
-    }
-
-    private Author getAuthor(String name) {
-        Author result = authorRepo.findByName(name);
-        if (result == null) {
-            result = new Author(name);
-            result = authorRepo.save(result);
         }
         return result;
     }

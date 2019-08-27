@@ -1,6 +1,5 @@
 package com.yardox.training.service;
 
-import com.yardox.training.domain.Author;
 import com.yardox.training.domain.News;
 import com.yardox.training.domain.Tag;
 import org.apache.logging.log4j.LogManager;
@@ -44,8 +43,7 @@ public class ThreadService implements Runnable {
         String text = getText(newsHeadlines);
         Timestamp date = getTimestamp(newsHeadlines);
         Tag tag = getTag(newsHeadlines);
-        Author author = getAuthor(newsHeadlines);
-        News result = new News(title, date, text, link, tag, author);
+        News result = new News(title, date, text, link, tag);
         try {
             exchanger.exchange(result);
         } catch (InterruptedException e) {
@@ -70,15 +68,8 @@ public class ThreadService implements Runnable {
         } else {
             String time = element.getElementsByClass("news current news_content").first().getElementsByTag("time").text();
             LocalDateTime localDateTime = LocalDateTime.parse(time, DateTimeFormatter.ofPattern("dd.MM.uuuu HH:mm"));
-//            LocalDateTime localDateTime = LocalDateTime.now();
             result = Timestamp.valueOf(localDateTime);
         }
-        return result;
-    }
-
-    private Author getAuthor(Element element) {
-        String name = "";
-        Author result = new Author(name);
         return result;
     }
 
