@@ -14,13 +14,13 @@ public class NewsService {
     @Autowired
     NewsRepo newsRepo;
 
-    public String getData() {
+    public Iterable<News> getData() {
         LOGGER.info("start");
         String result = "";
         Iterable<News> news = newsRepo.findAll();
         for (News article : news) {
             result = result + news + "\n"+ "\n"+ "\n";
         }
-        return result;
+        return news;
     }
 }

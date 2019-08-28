@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.Exchanger;
 
 
@@ -24,9 +26,9 @@ public class ThreadService implements Runnable {
 
     Exchanger<News> exchanger;
 
-    public ThreadService(String link,Exchanger<News> ex) {
+    public ThreadService(String link, Exchanger<News> ex) {
         this.link = link;
-        this.exchanger=ex;
+        this.exchanger = ex;
     }
 
     @Override
@@ -42,8 +44,8 @@ public class ThreadService implements Runnable {
         String title = newsHeadlines.getElementsByClass("listHeader").text();
         String text = getText(newsHeadlines);
         Timestamp date = getTimestamp(newsHeadlines);
-        Tag tag = getTag(newsHeadlines);
-        News result = new News(title, date, text, link, tag);
+        Set<Tag> tags = getTags(newsHeadlines);
+        News result = new News(title, date, text, link, tags);
         try {
             exchanger.exchange(result);
         } catch (InterruptedException e) {
@@ -73,10 +75,16 @@ public class ThreadService implements Runnable {
         return result;
     }
 
-    private Tag getTag(Element element) {
-        String name = element.getElementsByClass("categories").text();
-        LOGGER.info(name);
-        Tag result = new Tag(name);
+    private Set<Tag> getTags(Element element) {
+        Set<Tag> result = new HashSet<Tag>();
+//        String name = element.getElementsByClass("categories").text();
+        String name;
+        Elements elements = element.getElementsByClass("tags").first().getElementsByTag("a");
+        for (Element tag : elements) {
+            name = tag.text();
+            LOGGER.info(name);
+            result.add(new Tag(name));
+        }
         return result;
     }
 }

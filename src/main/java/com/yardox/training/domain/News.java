@@ -2,6 +2,7 @@ package com.yardox.training.domain;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Entity
 @Table(name = "news")
@@ -21,19 +22,21 @@ public class News {
 
     private String link;
 
-    @ManyToOne
-    @JoinColumn(name = "tag_id")
-    private Tag tag;
+    @ManyToMany
+    @JoinTable(name = "news_tag",
+    joinColumns = @JoinColumn(name = "news_id"),
+    inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Set<Tag> tags;
 
     public News() {
     }
 
-    public News(String title, Timestamp date, String text, String link, Tag tag) {
+    public News(String title, Timestamp date, String text, String link,Set<Tag> tags) {
         this.title = title;
         this.date = date;
         this.text = text;
         this.link = link;
-        this.tag = tag;
+        this.tags = tags;
     }
 
     public Long getId() {
@@ -76,12 +79,12 @@ public class News {
         this.link = link;
     }
 
-    public Tag getTag() {
-        return tag;
+    public Set<Tag> getTags() {
+        return tags;
     }
 
-    public void setTag(Tag tag) {
-        this.tag = tag;
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
     }
 
     @Override
@@ -92,7 +95,7 @@ public class News {
                 ", date=" + date +
                 ", text='" + text + '\'' +
                 ", link='" + link + '\'' +
-                ", tag=" + tag +
+                ", tags=" + tags +
                 '}';
     }
 }

@@ -25,7 +25,7 @@ public class MainController {
 
     @GetMapping({"/","/main"})
     public String hello(Model model){
-        model.addAttribute("name",newsService.getData() );
+        model.addAttribute("news",newsService.getData() );
         return "main";
     }
 }

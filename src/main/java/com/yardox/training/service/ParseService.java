@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.Exchanger;
 
 @Service
@@ -48,7 +50,11 @@ public class ParseService {
                 e.printStackTrace();
             }
             if (news != null) {
-                news.setTag(getTag(news.getTag().getName()));
+                Set<Tag> tags = new HashSet<>();
+                for (Tag tag: news.getTags()){
+                    tags.add(getTag(tag.getName()));
+                }
+                news.setTags(tags);
             }
             news = newsRepo.save(news);
             LOGGER.info("finish " + news.getTitle());

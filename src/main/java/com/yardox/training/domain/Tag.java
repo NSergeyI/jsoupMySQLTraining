@@ -1,6 +1,7 @@
 package com.yardox.training.domain;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "tag", uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
@@ -12,6 +13,9 @@ public class Tag {
     private Long id;
 
     private String name;
+
+    @ManyToMany(mappedBy = "tags")
+    private Set<News> newsSet;
 
     public Tag() {
     }
@@ -34,6 +38,14 @@ public class Tag {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<News> getNewsSet() {
+        return newsSet;
+    }
+
+    public void setNewsSet(Set<News> newsSet) {
+        this.newsSet = newsSet;
     }
 
     @Override
