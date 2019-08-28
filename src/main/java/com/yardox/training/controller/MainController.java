@@ -18,9 +18,10 @@ public class MainController {
     ParseService parseService;
 
     @GetMapping("/parse")
-    public String parse(){
+    public String parse(Model model){
         parseService.startParse();
-        return "parse";
+        model.addAttribute("news",newsService.getData() );
+        return "main";
     }
 
     @GetMapping({"/","/main"})

@@ -51,12 +51,11 @@ public class ThreadService implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-//        result = newsRepo.save(result);
     }
 
     private String getText(Element newsHeadlines) {
         String result = "";
-        Elements elements = newsHeadlines.getElementsByTag("p");
+        Elements elements = newsHeadlines.getElementsByClass("news current news_content").first().getElementsByTag("p");
         for (Element element : elements) {
             result = result + element.text() + "\n";
         }
@@ -77,7 +76,6 @@ public class ThreadService implements Runnable {
 
     private Set<Tag> getTags(Element element) {
         Set<Tag> result = new HashSet<Tag>();
-//        String name = element.getElementsByClass("categories").text();
         String name;
         Elements elements = element.getElementsByClass("tags").first().getElementsByTag("a");
         for (Element tag : elements) {
