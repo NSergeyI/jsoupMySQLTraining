@@ -8,8 +8,9 @@
     <link href="/css/main.css" rel="stylesheet">
 </head>
 <body>
+<a href="/">main</a>
 <a href="/parse">parse</a>
-
+<a href="/json">json</a>
 <table>
     <tr>
         <th>ID</th>

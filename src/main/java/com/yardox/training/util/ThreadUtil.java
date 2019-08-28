@@ -1,4 +1,4 @@
-package com.yardox.training.service;
+package com.yardox.training.util;
 
 import com.yardox.training.domain.News;
 import com.yardox.training.domain.Tag;
@@ -18,22 +18,22 @@ import java.util.Set;
 import java.util.concurrent.Exchanger;
 
 
-public class ThreadService implements Runnable {
+public class ThreadUtil implements Runnable {
 
     private String link;
 
-    private static final Logger LOGGER = LogManager.getLogger(ThreadService.class);
+    private static final Logger LOGGER = LogManager.getLogger(ThreadUtil.class);
 
     Exchanger<News> exchanger;
 
-    public ThreadService(String link, Exchanger<News> ex) {
+    public ThreadUtil(String link, Exchanger<News> ex) {
         this.link = link;
         this.exchanger = ex;
     }
 
     @Override
     public void run() {
-
+        LOGGER.info("start");
         Document doc = null;
         try {
             doc = Jsoup.connect(link).get();
@@ -49,6 +49,7 @@ public class ThreadService implements Runnable {
         try {
             exchanger.exchange(result);
         } catch (InterruptedException e) {
+            LOGGER.error("error send data to exchanger");
             e.printStackTrace();
         }
     }
@@ -80,7 +81,6 @@ public class ThreadService implements Runnable {
         Elements elements = element.getElementsByClass("tags").first().getElementsByTag("a");
         for (Element tag : elements) {
             name = tag.text();
-            LOGGER.info(name);
             result.add(new Tag(name));
         }
         return result;

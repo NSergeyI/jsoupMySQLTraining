@@ -4,6 +4,7 @@ import com.yardox.training.domain.News;
 import com.yardox.training.domain.Tag;
 import com.yardox.training.repos.NewsRepo;
 import com.yardox.training.repos.TagRepo;
+import com.yardox.training.util.ThreadUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
@@ -76,7 +77,7 @@ public class ParseService {
     private void startThreadService(Element element) {
         LOGGER.info("start");
         String link = element.getElementsByClass("linkName").first().getElementsByTag("a").attr("href");
-        Runnable runnable = new ThreadService(link, ex);
+        Runnable runnable = new ThreadUtil(link, ex);
         News news = null;
         new Thread(runnable).start();
     }

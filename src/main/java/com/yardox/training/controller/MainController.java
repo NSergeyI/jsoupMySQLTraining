@@ -29,4 +29,10 @@ public class MainController {
         model.addAttribute("news",newsService.getData() );
         return "main";
     }
+
+    @GetMapping("/json")
+    public String json(Model model){
+        model.addAttribute("json", newsService.getJsonData());
+        return "json";
+    }
 }

@@ -14,8 +14,8 @@ public class Tag {
 
     private String name;
 
-    @ManyToMany(mappedBy = "tags")
-    private Set<News> newsSet;
+//    @ManyToMany(mappedBy = "tags")
+//    private Set<News> newsSet;
 
     public Tag() {
     }
@@ -40,13 +40,13 @@ public class Tag {
         this.name = name;
     }
 
-    public Set<News> getNewsSet() {
-        return newsSet;
-    }
-
-    public void setNewsSet(Set<News> newsSet) {
-        this.newsSet = newsSet;
-    }
+//    public Set<News> getNewsSet() {
+//        return newsSet;
+//    }
+//
+//    public void setNewsSet(Set<News> newsSet) {
+//        this.newsSet = newsSet;
+//    }
 
     @Override
     public String toString() {
